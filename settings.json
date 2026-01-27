@@ -1,0 +1,46 @@
+{
+  "model": "opus",
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "permission_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "(sleep 10 && afplay /System/Library/Sounds/Ping.aiff && curl -s -d '🔐 Claude needs permission to continue' ntfy.sh/lodz-claude-x7k9m2 >/dev/null) & echo $! > ~/.claude/.notify_pid"
+          }
+        ]
+      },
+      {
+        "matcher": "idle_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "(sleep 10 && afplay /System/Library/Sounds/Glass.aiff && curl -s -d '💬 Claude is waiting for your input' ntfy.sh/lodz-claude-x7k9m2 >/dev/null) & echo $! > ~/.claude/.idle_pid"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "kill $(cat ~/.claude/.notify_pid 2>/dev/null) 2>/dev/null; rm -f ~/.claude/.notify_pid; exit 0"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "kill $(cat ~/.claude/.idle_pid 2>/dev/null) 2>/dev/null; rm -f ~/.claude/.idle_pid; kill $(cat ~/.claude/.notify_pid 2>/dev/null) 2>/dev/null; rm -f ~/.claude/.notify_pid; exit 0"
+          }
+        ]
+      }
+    ]
+  }
+}
