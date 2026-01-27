@@ -16,7 +16,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "(sleep 10 && afplay /System/Library/Sounds/Glass.aiff && curl -s -d '💬 Claude is waiting for your input' ntfy.sh/lodz-claude-x7k9m2 >/dev/null) & echo $! > ~/.claude/.idle_pid"
+            "command": "(sleep 10 && afplay /System/Library/Sounds/Glass.aiff) & echo $! > ~/.claude/.idle_pid"
           }
         ]
       }

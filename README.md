@@ -5,7 +5,7 @@ My [Claude Code](https://docs.anthropic.com/en/docs/claude-code) configuration â
 ## What's Inside
 
 ### `settings.json`
-- **Notification hooks**: Sound alerts + [ntfy.sh](https://ntfy.sh) push notifications for permission prompts and idle state (10s delay, auto-cancelled if responded to)
+- **Notification hooks**: Sound alerts for permission prompts and idle state (10s delay, auto-cancelled if responded to). Push notifications via [ntfy.sh](https://ntfy.sh) for permission prompts only (idle uses local sound only to reduce noise)
 - **Hook cancellation**: `PreToolUse` and `UserPromptSubmit` hooks that kill pending notifications when you respond in time
 
 ### `CLAUDE.md`
