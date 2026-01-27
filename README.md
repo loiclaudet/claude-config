@@ -21,6 +21,12 @@ On-demand guidelines loaded with `/skillname`:
 
 ## Remote Workflow
 
+That’s pretty cool for validating permissions and iterating from the mobile device.
+
+<img width="395" height="836" alt="image" src="https://github.com/user-attachments/assets/8d5f788a-0a31-4235-97fc-f779580ec782" />
+
+
+
 This config supports a mobile workflow:
 1. Run Claude Code inside **tmux** on your Mac
 2. Receive push notifications on iPhone/iPad via **ntfy.sh**
