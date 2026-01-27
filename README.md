@@ -26,11 +26,95 @@ This config supports a mobile workflow:
 2. Receive push notifications on iPhone/iPad via **ntfy.sh**
 3. SSH in from **Termius** to respond (locally via `hostname.local` or remotely via **Tailscale**)
 
-## Usage
+## Setup
+
+### 1. Clone config
 
 ```bash
-# Clone into your Claude config directory
+# Back up existing config first
+cp -r ~/.claude ~/.claude-backup
+
+# Clone
 git clone git@github.com:loiclaudet/claude-config.git ~/.claude
 ```
 
-> **Note**: Back up your existing `~/.claude` directory first if you have one.
+### 2. ntfy (push notifications)
+
+1. Install [ntfy](https://apps.apple.com/app/ntfy/id1625396347) on iPhone/iPad
+2. Subscribe to a private topic (e.g. `my-claude-xyz123`)
+3. Update the topic name in `settings.json` (replace `lodz-claude-x7k9m2`)
+
+### 3. tmux (persistent sessions)
+
+```bash
+# macOS
+brew install tmux
+```
+
+Enable mouse scrolling — add to `~/.tmux.conf`:
+
+```conf
+set -g mouse on
+```
+
+### 4. Tailscale (remote access)
+
+1. Install [Tailscale](https://tailscale.com/download) on Mac and iPhone/iPad
+2. Sign in with the same account on both devices
+3. Get your Mac's Tailscale IP: `tailscale ip -4`
+
+### 5. Enable SSH on Mac
+
+1. **System Settings → General → Sharing → Remote Login** → On
+2. Ensure your user is in the allowed users list
+
+### 6. Termius (SSH from mobile)
+
+1. Install [Termius](https://apps.apple.com/app/termius/id549039908) on iPhone/iPad
+2. Add host:
+   - **Hostname**: your Tailscale IP (e.g. `100.x.x.x`) or `your-mac.local` for local network
+   - **Username**: your macOS username
+   - **Password**: your macOS login password
+
+### 7. Shell alias
+
+Add this to your `~/.zshrc`:
+
+```bash
+# Claude Code in tmux
+unalias cc 2>/dev/null
+cc() {
+  local session="${1:-claude}"
+  if tmux has-session -t "$session" 2>/dev/null; then
+    tmux attach -t "$session"
+  else
+    if [ -z "$1" ]; then
+      local i=2
+      while tmux has-session -t "claude$i" 2>/dev/null; do
+        ((i++))
+      done
+      if tmux has-session -t "claude" 2>/dev/null; then
+        session="claude$i"
+      fi
+    fi
+    tmux new -s "$session" -d
+    tmux send-keys -t "$session" "claude -r" Enter
+    tmux attach -t "$session"
+  fi
+}
+```
+
+**Usage:**
+
+| Command | Behavior |
+|---------|----------|
+| `cc` | Attach to existing "claude" session, or create one |
+| `cc` | If "claude" is taken, creates "claude2", "claude3", etc. |
+| `cc work` | Create/attach to a named session |
+
+### Workflow
+
+1. Start Claude: `cc`
+2. Walk away — when Claude needs you, your phone buzzes
+3. Open Termius → SSH in → `tmux attach -t claude`
+4. Respond, then detach: `Ctrl+b d`
