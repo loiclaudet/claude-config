@@ -19,6 +19,10 @@ On-demand guidelines loaded with `/skillname`:
 | `/web` | Web project stack (TanStack, shadcn/ui, TailwindCSS, etc.), state management philosophy, code principles, TypeScript mantras, and expert perspectives to channel |
 | `/react` | Advanced React patterns cheat-sheet — re-renders, memoization, reconciliation, refs, portals, data fetching, error handling, performance (distilled from "Advanced React" by Nadia Makarevich) |
 
+### Shell aliases (`~/.zshrc`)
+- **`cc`** — Launch Claude Code in a tmux session (see [Setup](#7-shell-aliases))
+- **`pr-review`** — Review the current branch's PR using `claude -p` in a fresh context, free from the coding session's blind spots
+
 ## Remote Workflow
 
 That’s pretty cool for validating permissions and iterating from the mobile device.
@@ -82,7 +86,7 @@ set -g mouse on
    - **Username**: your macOS username
    - **Password**: your macOS login password
 
-### 7. Shell alias
+### 7. Shell aliases
 
 Add this to your `~/.zshrc`:
 
@@ -117,6 +121,39 @@ cc() {
 | `cc` | Attach to existing "claude" session, or create one |
 | `cc` | If "claude" is taken, creates "claude2", "claude3", etc. |
 | `cc work` | Create/attach to a named session |
+
+#### `pr-review` — PR code review with fresh context
+
+Inspired by [Boris Cherny's recommendation](https://x.com/bcherny) to review Claude-written code using `claude -p` in a **fresh context window**, so Claude doesn't have blind spots from the same session that wrote the code.
+
+Add this to your `~/.zshrc`:
+
+```bash
+pr-review() {
+  local pr_number
+  pr_number=$(gh pr view --json number -q '.number' 2>/dev/null)
+  if [ -z "$pr_number" ]; then
+    echo "No PR found for current branch. Push and create a PR first."
+    return 1
+  fi
+  local diff
+  diff=$(gh pr diff "$pr_number")
+  echo "$diff" | claude -p \
+    "You are reviewing a pull request. Here is the diff. Review it for:
+- Bugs and logic errors
+- Security vulnerabilities
+- Dead code and unnecessary complexity
+- Over-engineering
+- Missing error handling at system boundaries
+- Code that doesn't match surrounding conventions
+
+Be concise. Only flag real issues, not style nitpicks. For each issue, reference the file and line."
+}
+```
+
+**Usage:** From any branch with an open PR, run `pr-review`.
+
+**Prerequisites:** `gh` CLI and `claude` CLI installed and authenticated.
 
 ### Workflow
 
