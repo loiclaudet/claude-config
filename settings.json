@@ -32,6 +32,17 @@
         ]
       }
     ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "filepath=$(cat - | jq -r '.tool_input.file_path // empty'); case \"$filepath\" in *.js|*.jsx|*.ts|*.tsx|*.css|*.html) cd \"$(dirname \"$filepath\")\" && npx prettier --write \"$filepath\" 2>/dev/null; npx eslint --fix \"$filepath\" 2>/dev/null; exit 0 ;; *) exit 0 ;; esac"
+          }
+        ]
+      }
+    ],
     "UserPromptSubmit": [
       {
         "hooks": [
