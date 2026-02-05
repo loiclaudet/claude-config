@@ -1,3 +1,8 @@
+---
+description: React patterns cheat-sheet — re-renders, memoization, reconciliation, keys, context, refs, portals, data fetching, error handling, state management, and component conventions (distilled from "Advanced React" by Nadia Makarevich)
+disable-model-invocation: true
+---
+
 # React Patterns & Rules Cheat-Sheet
 
 ## Re-renders
@@ -211,3 +216,14 @@ Store in URL when state should survive refresh, be shareable, or represents navi
 - `useCallback`/`useMemo` without `React.memo`
 - Spreading unknown props to memoized components
 - Stale closures in callbacks/effects
+
+---
+
+## Component Conventions
+
+- `export const ComponentName = (props: Props) =>` — arrow function, named export
+- Use `function` keyword only for hoisted callback helpers inside components (implementation details)
+- Never `export default` unless required by router/framework
+- Use React 19 APIs: Activity, useEffectEvent
+- Never use `any` or `as` keywords
+- Always use `type` over `interface`

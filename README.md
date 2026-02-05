@@ -11,17 +11,12 @@ My [Claude Code](https://docs.anthropic.com/en/docs/claude-code) configuration â
 ### `CLAUDE.md`
 Global preferences applied to all projects.
 
-### `commands/`
-
-| Command | Description |
-|---------|-------------|
-| `/setup-hooks` | Inspects the project's `package.json` for prettier/eslint/biome and creates `.claude/settings.local.json` with the appropriate PostToolUse linting hook. Run once per project. |
-
 ### `skills/`
 On-demand guidelines loaded with `/skillname`:
 
 | Skill | Description |
 |-------|-------------|
+| `/setup` | Detects project tooling (prettier/eslint/biome, React/web stack) and creates `.claude/settings.local.json` with PostToolUse linting hooks + `.claude/CLAUDE.md` with code conventions. Run once per project. |
 | `/web` | Web project stack (TanStack, shadcn/ui, TailwindCSS, etc.), state management philosophy, code principles, TypeScript mantras, and expert perspectives to channel |
 | `/react` | Advanced React patterns cheat-sheet â€” re-renders, memoization, reconciliation, refs, portals, data fetching, error handling, performance (distilled from "Advanced React" by Nadia Makarevich) |
 

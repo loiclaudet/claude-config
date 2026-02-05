@@ -1,3 +1,8 @@
+---
+description: Web project guidelines — stack (TanStack, shadcn/ui, TailwindCSS), state management philosophy, code conventions, TypeScript mantras, architecture principles, anti-patterns, and expert perspectives to channel
+disable-model-invocation: true
+---
+
 # Web Project Guidelines
 
 ## Stack
@@ -5,7 +10,7 @@
 ### Core
 - TypeScript, React 19 (Activity, useEffectEvent)
 - TanStack (Router, Query) — use Vite for tiny projects
-- shadcn/ui + TailwindCSS
+- shadcn/ui + TailwindCSS (always use `className` — never `StyleSheet.create` or inline styles)
 - Axios, Zod
 
 ### Backend/Data
@@ -59,6 +64,39 @@
 - Composition > inheritance
 - Explicit dependencies, no hidden coupling
 - Fail fast, recover gracefully
+
+---
+
+## Code Conventions
+
+### Files & Exports
+- Name files only in kebab-case
+- Never export default (unless framework requires it)
+- Never use barrel files
+
+### TypeScript
+- Never use `any` — use `unknown`
+- Never use enums — use union types
+- Use `readonly` for immutable properties and arrays
+- Use discriminated unions with exhaustiveness checking
+- Prefer `type` over `interface`
+
+### JavaScript
+- `const` always, `let` only when reassigning
+- Don't `await` return statements — return the Promise directly
+- Always use curly braces for control structures
+- Use `??` over `||`; avoid optional chaining, prefer strong types
+- Prefix unused variables with `_`
+- Use object spread over `Object.assign`
+- Use template literals over string concatenation
+- Avoid if/else — prefer early returns
+- Avoid silent catch with unnecessary fallbacks — throw instead
+- Use tiny, functional functions; avoid side effects
+
+### Imports
+- Order: built-in → external → internal → parent → sibling → type
+- Blank lines between groups, alphabetical within groups
+- No circular dependencies
 
 ---
 

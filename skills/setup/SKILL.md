@@ -1,7 +1,13 @@
-Inspect this project's linting/formatting setup and create `.claude/settings.local.json` with appropriate PostToolUse hooks.
+---
+description: Detect project tooling and create .claude/settings.local.json (linting hooks) + .claude/CLAUDE.md (code conventions)
+user-invocable: true
+---
 
-Steps:
-1. Read `package.json` (and any lockfiles if needed) to detect:
+Inspect this project and set up Claude Code integration.
+
+## Part 1 — PostToolUse Hooks (linting/formatting)
+
+1. Read `package.json` to detect:
    - **prettier** in dependencies/devDependencies
    - **eslint** in dependencies/devDependencies
    - **biome** (`@biomejs/biome`) in dependencies/devDependencies
@@ -47,3 +53,36 @@ Steps:
      ```
    - **Neither found**: inform the user that no formatter/linter was detected, don't create the file
 4. Show what was created and confirm the hook is active
+
+## Part 2 — Project Conventions (.claude/CLAUDE.md)
+
+1. Detect the project's stack by reading `package.json`:
+   - **React project**: has `react` in dependencies
+   - **Web project**: has any of `@tanstack/react-router`, `@tanstack/react-query`, `tailwindcss`, `next`, `vite` in dependencies/devDependencies
+2. If React or web stack detected, create `.claude/CLAUDE.md` (if it doesn't already exist) with the relevant conventions:
+
+```markdown
+# Code Conventions
+- Name files only in kebab-case
+- Never export default (unless framework requires it)
+- Never use barrel files
+- Never use `any` — use `unknown`
+- Never use enums — use union types
+- Prefer `type` over `interface`
+- Use arrow functions for component exports: `export const Foo = () =>`
+- Use `function` keyword only for hoisted helpers inside components
+- Always use TailwindCSS `className` — never `StyleSheet.create` or inline styles
+
+# Reference Skills
+- `/react` — React patterns (re-renders, memoization, reconciliation, state management)
+- `/web` — Web stack guidelines (state management, architecture, anti-patterns)
+```
+
+3. If `.claude/CLAUDE.md` already exists, don't overwrite — inform the user it already exists
+4. If no React/web stack detected, skip this step and inform the user
+
+## Summary
+
+After completing both parts, show the user:
+- What hooks were configured (or that none were needed)
+- Whether project conventions were created (or that the project isn't a React/web project)
