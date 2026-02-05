@@ -11,6 +11,12 @@ My [Claude Code](https://docs.anthropic.com/en/docs/claude-code) configuration â
 ### `CLAUDE.md`
 Global preferences applied to all projects.
 
+### `commands/`
+
+| Command | Description |
+|---------|-------------|
+| `/setup-hooks` | Inspects the project's `package.json` for prettier/eslint/biome and creates `.claude/settings.local.json` with the appropriate PostToolUse linting hook. Run once per project. |
+
 ### `skills/`
 On-demand guidelines loaded with `/skillname`:
 
