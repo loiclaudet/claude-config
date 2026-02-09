@@ -51,5 +51,34 @@
   },
   "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "spinnerVerbs": {
+    "mode": "replace",
+    "verbs": [
+      "connect the dots",
+      "stay hungry, stay foolish",
+      "think different",
+      "simplify",
+      "one more thing",
+      "make a dent in the universe",
+      "design is how it works",
+      "focus and simplify",
+      "the journey is the reward",
+      "be a pirate, not the navy",
+      "real artists ship",
+      "follow your curiosity",
+      "say no to a thousand things",
+      "innovate and distinguish",
+      "sweat the details",
+      "create insanely great things",
+      "push the human race forward",
+      "everything around you was made up",
+      "follow your heart",
+      "don't settle",
+      "creativity is just connecting things",
+      "know what people want",
+      "start small, think big",
+      "quality over quantity"
+    ]
   }
 }
